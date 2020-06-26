@@ -55,6 +55,11 @@ If you have NPM you can just run `$ npm run start` or `$ npm run start:vpn`
 
 If you have NPM you can just run `$ npm run start` or `$ npm run start:wireguard`
 
+#### How to test your VPN
+* From your host, you can run following command:
+* `$ docker container exec -it bobarr-vpn curl http://ifconfig.me`
+It will return the public IP expose by the container. It should be a different IP (assuming only the container bobarr-vpn is connected to vpn)
+
 ## Configuration
 
 ### Torrent account
@@ -68,6 +73,14 @@ If you have NPM you can just run `$ npm run start` or `$ npm run start:wireguard
 * Set your region and language according to your torrent tracker
 * Create and order your preferred tags found in torrent file (ex: vost, multi, english...)
 * Order your preferred qualities to download
+
+* It is possible to reset bobarr config:
+* Go to http://localhost:3000/settings
+* Click on the button "Reset bobarr"
+* By default, the reset action will remove everything from bobarr database and it will re-scan your library folder.
+* Options available :
+1) Delete files downloaded from disk with bobarr (permanent) ==> This option will erase all the downloaded files and cleanup the symlinks in the library folder
+2) Reset settings ==> This action will set back to the defaults settings (jackett api key, quality preferences, ...)
 
 ## Usage
 
