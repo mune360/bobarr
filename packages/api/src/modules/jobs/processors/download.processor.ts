@@ -1,9 +1,12 @@
+import { Inject } from '@nestjs/common';
 import { Processor, Process, InjectQueue } from '@nestjs/bull';
 import { forEachSeries } from 'p-iteration';
 import { Job, Queue } from 'bull';
-import { Inject } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
+import dayjs from 'dayjs';
+
+import { TMDBService } from '../../tmdb/tmdb.service';
 
 import {
   JobsQueue,
@@ -22,13 +25,14 @@ import { LibraryService } from 'src/modules/library/library.service';
 export class DownloadProcessor {
   // eslint-disable-next-line max-params
   public constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     @InjectQueue(JobsQueue.DOWNLOAD) private readonly downloadQueue: Queue,
     private readonly movieDAO: MovieDAO,
     private readonly tvSeasonDAO: TVSeasonDAO,
     private readonly tvEpisodeDAO: TVEpisodeDAO,
     private readonly jackettService: JackettService,
-    private readonly libraryService: LibraryService
+    private readonly libraryService: LibraryService,
+    private readonly tmdbService: TMDBService
   ) {
     this.logger = logger.child({ context: 'DownloadProcessor' });
   }
@@ -171,11 +175,45 @@ export class DownloadProcessor {
   // check if job should continue
   // media can be already removed from database
   // when results are found from jackett
+  private async isReleased(media: { movieId?: number; seasonId?: number }) {
+    try {
+      if (media.movieId) {
+        const movie = await this.tmdbService.getMovie(media.movieId);
+        if (!movie.release_date) return true; // Si pas de date, on laisse passer
+        const releaseDate = dayjs(movie.release_date);
+        return dayjs().isAfter(releaseDate);
+      }
+
+      if (media.seasonId) {
+        const season = await this.tvSeasonDAO.findOne({
+          where: { id: media.seasonId },
+          relations: ['tvShow'],
+        });
+        if (!season?.tvShow?.tmdbId) return true; // Si pas de TMDB ID, on laisse passer
+        
+        const tvShow = await this.tmdbService.getTVShow(season.tvShow.tmdbId);
+        const seasonData = tvShow.seasons?.find(
+          (s) => s.season_number === season.seasonNumber
+        );
+        
+        if (!seasonData?.air_date) return true; // Si pas de date, on laisse passer
+        const seasonAirDate = dayjs(seasonData.air_date);
+        return dayjs().isAfter(seasonAirDate);
+      }
+
+      return true;
+    } catch (error) {
+      this.logger.error('Error checking release date', { error, media });
+      return true; // En cas d'erreur, on laisse passer pour ne pas bloquer
+    }
+  }
+
   private async canRun(media: {
     movieId?: number;
     seasonId?: number;
     episodeId?: number;
   }) {
+    // Vérifier d'abord si le média existe toujours
     if (
       (media.movieId && !(await this.movieDAO.findOne(media.movieId))) ||
       (media.seasonId && !(await this.tvSeasonDAO.findOne(media.seasonId))) ||
@@ -185,6 +223,13 @@ export class DownloadProcessor {
         'media already removed from database, this job will stop',
         media
       );
+      return false;
+    }
+
+    // Vérifier si le média est déjà sorti
+    const isReleased = await this.isReleased(media);
+    if (!isReleased) {
+      this.logger.info('media not yet released, skipping download', media);
       return false;
     }
 
