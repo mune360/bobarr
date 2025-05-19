@@ -1,5 +1,3 @@
-version: "3.6"
-
 volumes:
   web_build:
   api_build:
@@ -84,8 +82,9 @@ services:
     depends_on:
       - transmission
     environment:
-      - TZ=Europe/Paris
+      - TZ=America/Toronto
     ports:
       - "9091:80"
+      - "4443:443"
     command: -w "http://transmission:9091;/"
     restart: unless-stopped

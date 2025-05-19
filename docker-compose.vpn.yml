@@ -11,11 +11,14 @@ services:
     networks:
       - default
     dns:
-      - 1.1.1.1
+      - 8.8.8.4
       - 1.0.0.1
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=1
+#    ports:
+#      - "51413:51413"
+#      - "9117:9117"
     volumes:
       - /dev/net:/dev/net:z
       - ./packages/vpn:/vpn
@@ -29,6 +32,7 @@ services:
   api:
     links:
       - vpn:transmission
+#      - vpn:jackett
     networks:
       - default
 
@@ -42,3 +46,17 @@ services:
       - vpn:transmission
     networks:
       - default
+
+#  jackett:
+#    network_mode: "service:vpn"
+#    depends_on:
+#      - vpn
+
+#  jackett-web:
+#    links:
+#      - vpn:jackett
+#    networks:
+#      - default
+
+
+

@@ -4,6 +4,89 @@ node_modules
 .DS_Store
 .idea
 .vscode
+docker-compose.nordvpn.yml
+docker-compose.vpn.yml
+docker-compose.wireguard.yml
+docker-compose.yml.jacketvpn
+docker-compose.yml.jacketvpn
+ignore-config/*
+token.txt
+
+# k8s specific for test
+k8s/*
+env-configmap.yaml
+configmap.yaml
+bobarr-deployment.yaml
+bobarr-service.yaml
+bobarr-persistentvolumeclaim.yaml
+bobarr-persistentvolume.yaml
+bobarr-secret.yaml
+bobarr.yaml
+bobarr-default-networkpolicy.yaml
+db-data-persistentvolumeclaim.yaml
+redis-data-persistentvolumeclaim.yaml
+postgres-persistentvolumeclaim.yaml
+postgres-persistentvolume.yaml
+redis-persistentvolume.yaml
+bobarr-persistentvolume.yaml
+flaresolverr-deployment.yaml
+flaresolverr-service.yaml
+flaresolverr-persistentvolumeclaim.yaml
+flaresolverr-persistentvolume.yaml
+flaresolverr-secret.yaml
+jackett-deployment.yaml
+jackett-service.yaml
+jackett-persistentvolumeclaim.yaml
+jackett-persistentvolume.yaml
+jackett-secret.yaml
+transmission-deployment.yaml
+transmission-service.yaml
+transmission-persistentvolumeclaim.yaml
+transmission-persistentvolume.yaml
+transmission-secret.yaml
+transmission-web-deployment.yaml
+transmission-web-service.yaml
+transmission-web-persistentvolumeclaim.yaml
+transmission-web-persistentvolume.yaml
+transmission-web-secret.yaml
+vpn-deployment.yaml
+vpn-service.yaml
+vpn-persistentvolumeclaim.yaml
+vpn-persistentvolume.yaml
+vpn-secret.yaml
+vpn-networkpolicy.yaml
+vpn-default-networkpolicy.yaml
+web-deployment.yaml
+web-service.yaml
+web-persistentvolumeclaim.yaml
+web-persistentvolume.yaml
+web-secret.yaml
+api-deployment.yaml
+api-service.yaml
+api-persistentvolumeclaim.yaml
+api-persistentvolume.yaml
+api-secret.yaml
+api-claim0-persistentvolumeclaim.yaml
+api-claim0-persistentvolume.yaml
+api-claim1-persistentvolumeclaim.yaml
+api-claim1-persistentvolume.yaml
+api-claim2-persistentvolumeclaim.yaml
+api-claim2-persistentvolume.yaml
+api-claim3-persistentvolumeclaim.yaml
+api-claim3-persistentvolume.yaml
+api-claim4-persistentvolumeclaim.yaml
+api-claim4-persistentvolume.yaml
+api-claim5-persistentvolumeclaim.yaml
+api-claim5-persistentvolume.yaml
+api-claim6-persistentvolumeclaim.yaml
+api-claim6-persistentvolume.yaml
+api-claim7-persistentvolumeclaim.yaml
+api-claim7-persistentvolume.yaml
+api-claim8-persistentvolumeclaim.yaml
+api-claim8-persistentvolume.yaml
+api-claim9-persistentvolumeclaim.yaml
+api-claim9-persistentvolume.yaml
+
 
 # debug
 npm-debug.log*
@@ -25,6 +108,60 @@ packages/transmission/watch/*
 packages/vpn/*
 !packages/vpn/.gitkeep
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# VPN configurations
+*.ovpn
+*.conf
+*.crt
+*.key
+*.pem
+*.p12
+*.pfx
+*.p7b
+*.sstp
+*.pbk
+*.tblk
+*.secrets
+openvpn-*.conf
+wireguard-*.conf
+
+# Authentication files
+auth*
+*.auth
+*.creds
+*.credentials
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache
+data/
+.cache/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 # library
 library/downloads/*
 !library/downloads/.gitkeep
@@ -32,3 +169,4 @@ library/movies/*
 !library/movies/.gitkeep
 library/tvshows/*
 !library/tvshows/.gitkeep
+.qodo

@@ -19,7 +19,7 @@ EOF
 args=$1
 
 stop_bobarr() {
-  docker-compose down --remove-orphans || true
+  docker compose down --remove-orphans || true
 }
 
 after_start() {
@@ -27,27 +27,42 @@ after_start() {
   echo "bobarr started correctly, printing bobarr api logs"
   echo "you can close this and bobarr will continue to run in backgound"
   echo ""
-  docker-compose logs -f api
+  docker compose logs -f api
 }
 
 if [[ $args == 'start' ]]; then
   stop_bobarr
-  docker-compose up --force-recreate -d
+  docker compose up --force-recreate -d
   after_start
 elif [[ $args == 'start:vpn' ]]; then
   stop_bobarr
-  docker-compose -f docker-compose.yml -f docker-compose.vpn.yml up --force-recreate -d
+  docker compose -f docker-compose.yml -f docker-compose.vpn.yml up --force-recreate -d
   after_start
 elif [[ $args == 'start:wireguard' ]]; then
   stop_bobarr
-  docker-compose -f docker-compose.yml -f docker-compose.wireguard.yml up --force-recreate -d
+  docker compose -f docker-compose.yml -f docker-compose.wireguard.yml up --force-recreate -d
+  after_start
+elif [[ $args == 'start:nordvpn' ]]; then
+  stop_bobarr
+  docker compose -f docker-compose.yml -f docker-compose.nordvpn.yml up --force-recreate -d
   after_start
 elif [[ $args == 'stop' ]]; then
   stop_bobarr
   echo ""
   echo "bobarr correctly stopped"
+  elif [[ $args == 'updatestart' ]]; then
+  stop_bobarr
+  echo ""
+  echo "bobarr correctly stopped"
+
+  docker compose pull
+  echo ""
+  echo "bobarr docker images correctly updated, you can now re-start bobarr" 
+
+  docker compose -f docker-compose.yml -f docker-compose.nordvpn.yml up --force-recreate -d
+  after_start 
 elif [[ $args == 'update' ]]; then
-  docker-compose pull
+  docker compose pull
   echo ""
   echo "bobarr docker images correctly updated, you can now re-start bobarr"
 else

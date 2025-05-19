@@ -5,6 +5,7 @@ import {
   EnrichedMovie,
 } from '../../utils/graphql';
 import { RatingDetailsStyles } from './rating-details.styles';
+import { formatRating } from '../../utils/formatRating';
 export const RatingDetailComponent = ({
   entertainment,
 }: {
@@ -17,11 +18,12 @@ export const RatingDetailComponent = ({
   const ratings = data?.result.ratings;
 
   const allRatings = {
-    TMDB: `${entertainment.voteAverage * 10}%`,
+    TMDB: `${formatRating(entertainment.voteAverage * 10)}%`,
     IMDB: ratings?.IMDB,
     rottenTomatoes: ratings?.rottenTomatoes,
     metaCritic: ratings?.metaCritic,
   };
+  
 
   return (
     <RatingDetailsStyles>
