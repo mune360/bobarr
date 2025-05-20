@@ -11,6 +11,7 @@ docker-compose.yml.jacketvpn
 docker-compose.yml.jacketvpn
 ignore-config/*
 token.txt
+scripts/create-task-branch.sh
 
 # k8s specific for test
 k8s/*
