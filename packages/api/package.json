@@ -37,7 +37,7 @@
     "graphql": "^15.3.0",
     "graphql-bigint": "^1.0.0",
     "graphql-tools": "^6.1.0",
-    "ioredis": "^4.16.2",
+    "ioredis": "^5.6.1",
     "leven": "^3.1.0",
     "lib-get-redirects": "^1.0.0",
     "lodash": "^4.17.19",
