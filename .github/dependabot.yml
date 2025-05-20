@@ -1,0 +1,42 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    target-branch: "master"
+    labels:
+      - "dependencies"
+    reviewers:
+      - "iam4x"
+    rebase-strategy: "disabled"
+    versioning-strategy: "increase"
+
+  # Configuration pour les packages/api
+  - package-ecosystem: "npm"
+    directory: "/packages/api"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    target-branch: "master"
+    labels:
+      - "dependencies"
+    reviewers:
+      - "iam4x"
+    rebase-strategy: "disabled"
+    versioning-strategy: "increase"
+
+  # Configuration pour les packages/web
+  - package-ecosystem: "npm"
+    directory: "/packages/web"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    target-branch: "master"
+    labels:
+      - "dependencies"
+    reviewers:
+      - "iam4x"
+    rebase-strategy: "disabled"
+    versioning-strategy: "increase"
