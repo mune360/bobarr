@@ -47,7 +47,7 @@
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4",
+    "rxjs": "^6.6.7",
     "transmission-client": "^1.0.0",
     "typeorm": "^0.2.24",
     "winston": "^3.2.1",
