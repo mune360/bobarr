@@ -50,7 +50,7 @@
     "rxjs": "^6.5.4",
     "transmission-client": "^1.0.0",
     "typeorm": "^0.2.24",
-    "winston": "^3.2.1",
+    "winston": "^3.17.0",
     "xml2json-light": "^1.0.6"
   },
   "devDependencies": {
